@@ -25,7 +25,7 @@ public class ProduitDAOJdbc implements ProduitDAO {
 		try {
 			Statement stat = connection.createStatement();
 			ResultSet curseur = stat.executeQuery(
-					"SELECT categorie, marque, nom, nutritionScore, energie, graisse,sucre, fibres, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2, vitPP, vitB6, vitB9,vitB12, calcium, mangesium, iron, fer, betaCarotene, huileDePalme, allergenes, additifs FROM PRODUIT");
+					"SELECT categorie, marque, nom, nutritionScore, energie, graisse,sucre, fibres, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2, vitPP, vitB6, vitB9,vitB12, calcium, mangesium, iron, fer, betaCarotene, huileDePalme FROM PRODUIT");
 			while (curseur.next()) {
 				String stringCategorie = curseur.getString("categorie");
 				Categorie categorie = new Categorie(stringCategorie);
@@ -55,12 +55,10 @@ public class ProduitDAOJdbc implements ProduitDAO {
 				String fer = curseur.getString("fer");
 				String betaCarotene = curseur.getString("betaCarotene");
 				String huileDePalme = curseur.getString("huileDePalme");
-				String allergenes = curseur.getString("allergenes");
-				String additifs = curseur.getString("additifs");
 
 				Produit produitActuel = new Produit(categorie, marque, nom, nutritionScore, energie, graisse, sucre,
 						fibres, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2, vitPP, vitB6, vitB9, vitB12,
-						calcium, mangesium, iron, fer, betaCarotene, huileDePalme, allergenes, additifs);
+						calcium, mangesium, iron, fer, betaCarotene, huileDePalme);
 				arrayProduit.add(produitActuel);
 			}
 
@@ -83,7 +81,7 @@ public class ProduitDAOJdbc implements ProduitDAO {
 		try {
 
 			insertProduit = connection.prepareStatement(
-					"INSERT INTO PRODUIT (categorie, marque, nom, nutritionScore, energie, graisse, sucre, fibres, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2, vitPP, vitB6, vitB9, vitB12, calcium, mangesium, iron, fer, betaCarotene, huileDePalme, allergenes, additifs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO PRODUIT (categorie, marque, nom, nutritionScore, energie, graisse, sucre, fibres, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2, vitPP, vitB6, vitB9, vitB12, calcium, mangesium, iron, fer, betaCarotene, huileDePalme) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			insertProduit.setObject(1, produit.getCategorie());
 			insertProduit.setString(2, produit.getMarque());
 			insertProduit.setString(3, produit.getNom());
@@ -111,8 +109,6 @@ public class ProduitDAOJdbc implements ProduitDAO {
 			insertProduit.setString(26, produit.getFer());
 			insertProduit.setString(27, produit.getBetaCarotene());
 			insertProduit.setString(28, produit.getHuileDePalme());
-			insertProduit.setString(29, produit.getAllergenes());
-			insertProduit.setString(30, produit.getAdditifs());
 			nb = insertProduit.executeUpdate();
 
 			insertProduit.close();

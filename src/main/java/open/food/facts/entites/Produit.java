@@ -22,7 +22,7 @@ public class Produit {
 	int id;
 
 	@ManyToOne
-	@JoinColumn(name = "CATEGORIE", referencedColumnName = "NOM")
+	@JoinColumn(name = "CATEGORIE")
 	Categorie categorie;
 
 	@Column(name = "MARQUE")
@@ -35,8 +35,8 @@ public class Produit {
 	String nutritionScore;
 
 	@ManyToMany
-	@JoinTable(name = "COMPO", joinColumns = @JoinColumn(name = "ID_PRODUIT", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_INGREDIENT", referencedColumnName = "ID"))
-	List<Ingredient> Ingredients;
+	@JoinTable(name = "COMPO_PRODUIT_INGREDIENT", joinColumns = @JoinColumn(name = "ID_PRODUIT", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_INGREDIENT", referencedColumnName = "ID"))
+	List<Ingredient> ingredients;
 
 	@Column(name = "ENERGIE")
 	String energie;
@@ -107,11 +107,13 @@ public class Produit {
 	@Column(name = "HUILE_DE_PALME")
 	String huileDePalme;
 
-	@Column(name = "ALLERGENES", length = 2000)
-	String allergenes;
+	@ManyToMany
+	@JoinTable(name = "COMPO_PRODUIT_ALLERGENE", joinColumns = @JoinColumn(name = "ID_PRODUIT", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_ALLERGENE", referencedColumnName = "ID"))
+	List<Allergene> allergenes;
 
-	@Column(name = "ADDITIFS", length = 2000)
-	String additifs;
+	@ManyToMany
+	@JoinTable(name = "COMPO_PRODUIT_ADDITIF", joinColumns = @JoinColumn(name = "ID_PRODUIT", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_ADDITIF", referencedColumnName = "ID"))
+	List<Additif> additifs;
 
 	public Produit() {
 	}
@@ -120,13 +122,13 @@ public class Produit {
 			String energie, String graisse, String sucre, String fibres, String proteine, String sel, String vitA,
 			String vitD, String vitE, String vitK, String vitC, String vitB1, String vitB2, String vitPP, String vitB6,
 			String vitB9, String vitB12, String calcium, String mangesium, String iron, String fer, String betaCarotene,
-			String huileDePalme, String allergenes, String additifs) {
+			String huileDePalme, List<Allergene> allergenes, List<Additif> additifs) {
 		super();
 		this.categorie = categorie;
 		this.marque = marque;
 		this.nom = nom;
 		this.nutritionScore = nutritionScore;
-		Ingredients = ingredients;
+		this.ingredients = ingredients;
 		this.energie = energie;
 		this.graisse = graisse;
 		this.sucre = sucre;
@@ -158,7 +160,7 @@ public class Produit {
 			String graisse, String sucre, String fibres, String proteine, String sel, String vitA, String vitD,
 			String vitE, String vitK, String vitC, String vitB1, String vitB2, String vitPP, String vitB6, String vitB9,
 			String vitB12, String calcium, String mangesium, String iron, String fer, String betaCarotene,
-			String huileDePalme, String allergenes, String additifs) {
+			String huileDePalme) {
 		super();
 		this.categorie = categorie;
 		this.marque = marque;
@@ -187,14 +189,12 @@ public class Produit {
 		this.fer = fer;
 		this.betaCarotene = betaCarotene;
 		this.huileDePalme = huileDePalme;
-		this.allergenes = allergenes;
-		this.additifs = additifs;
 	}
 
 	@Override
 	public String toString() {
 		return "Produit [id=" + id + ", categorie=" + categorie + ", marque=" + marque + ", nom=" + nom
-				+ ", nutritionScore=" + nutritionScore + ", Ingredients=" + Ingredients + ", energie=" + energie
+				+ ", nutritionScore=" + nutritionScore + ", Ingredients=" + ingredients + ", energie=" + energie
 				+ ", graisse=" + graisse + ", sucre=" + sucre + ", fibres=" + fibres + ", proteine=" + proteine
 				+ ", sel=" + sel + ", vitA=" + vitA + ", vitD=" + vitD + ", vitE=" + vitE + ", vitK=" + vitK + ", vitC="
 				+ vitC + ", vitB1=" + vitB1 + ", vitB2=" + vitB2 + ", vitPP=" + vitPP + ", vitB6=" + vitB6 + ", vitB9="
@@ -244,11 +244,11 @@ public class Produit {
 	}
 
 	public List<Ingredient> getIngredients() {
-		return Ingredients;
+		return ingredients;
 	}
 
 	public void setIngredients(List<Ingredient> ingredients) {
-		Ingredients = ingredients;
+		this.ingredients = ingredients;
 	}
 
 	public String getEnergie() {
@@ -435,19 +435,19 @@ public class Produit {
 		this.huileDePalme = huileDePalme;
 	}
 
-	public String getAllergenes() {
+	public List<Allergene> getAllergenes() {
 		return allergenes;
 	}
 
-	public void setAllergenes(String allergenes) {
+	public void setAllergenes(List<Allergene> allergenes) {
 		this.allergenes = allergenes;
 	}
 
-	public String getAdditifs() {
+	public List<Additif> getAdditifs() {
 		return additifs;
 	}
 
-	public void setAdditifs(String additifs) {
+	public void setAdditifs(List<Additif> additifs) {
 		this.additifs = additifs;
 	}
 

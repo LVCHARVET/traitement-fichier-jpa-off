@@ -13,9 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "INGREDIENT")
-public class Ingredient {
-
+@Table(name = "ADDITIF")
+public class Additif {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
@@ -24,19 +23,19 @@ public class Ingredient {
 	String nom;
 
 	@ManyToMany
-	@JoinTable(name = "COMPO_PRODUIT_INGREDIENT", joinColumns = @JoinColumn(name = "ID_INGREDIENT", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_PRODUIT", referencedColumnName = "ID"))
-	List<Produit> produits;
+	@JoinTable(name = "COMPO_PRODUIT_ADDITIF", joinColumns = @JoinColumn(name = "ID_ADDITIF", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_PRODUIT", referencedColumnName = "ID"))
+	List<Produit> Produits;
 
-	public Ingredient() {
+	public Additif() {
 	}
 
-	public Ingredient(String nom) {
+	public Additif(String nom) {
 		this.nom = nom;
 	}
 
 	@Override
 	public String toString() {
-		return "Ingredient [id=" + id + ", nom=" + nom + ", Produits=" + produits + "]";
+		return "Additif [id=" + id + ", nom=" + nom + ", Produits=" + Produits + "]";
 	}
 
 	public int getId() {
@@ -56,11 +55,11 @@ public class Ingredient {
 	}
 
 	public List<Produit> getProduits() {
-		return produits;
+		return Produits;
 	}
 
 	public void setProduits(List<Produit> produits) {
-		this.produits = produits;
+		Produits = produits;
 	}
 
 }
