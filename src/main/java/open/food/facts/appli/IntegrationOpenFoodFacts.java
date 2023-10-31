@@ -15,6 +15,7 @@ import javax.persistence.Persistence;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
+import open.food.facts.entites.Categorie;
 import open.food.facts.entites.Ingredient;
 import open.food.facts.entites.Produit;
 
@@ -27,6 +28,7 @@ public class IntegrationOpenFoodFacts {
 
 		List<Produit> arrayProduitGlobal = new ArrayList<Produit>();
 		List<Ingredient> arrayIngredientGlobal = new ArrayList<Ingredient>();
+		Set<Categorie> arrayCategorieGlobal = new HashSet<>();
 
 		Path pathfile = Paths.get("C:/temp/open-food-facts.csv");
 
@@ -34,12 +36,13 @@ public class IntegrationOpenFoodFacts {
 
 		for (int i = 0; i < lines.size(); i++) {
 			List<String> arrayIngredient = new ArrayList<>();
+			List<Categorie> arrayCategorie = new ArrayList<>();
 
 			String line = lines.get(i);
 			String[] tokens = line.split("\\|", -1);
 
 			if (i > 1) {
-				String categorie = tokens[0];
+				Categorie categorie = new Categorie(tokens[0]);				
 				String marque = tokens[1];
 				String nom = tokens[2];
 				String nutritionScore = tokens[3];

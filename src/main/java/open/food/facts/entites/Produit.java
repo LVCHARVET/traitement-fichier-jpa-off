@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,8 +21,9 @@ public class Produit {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
-	@Column(name = "CATEGORIE")
-	String categorie;
+	@ManyToOne
+	@JoinColumn(name = "CATEGORIE", referencedColumnName = "NOM")
+	Categorie categorie;
 
 	@Column(name = "MARQUE")
 	String marque;
@@ -114,7 +116,7 @@ public class Produit {
 	public Produit() {
 	}
 
-	public Produit(String categorie, String marque, String nom, String nutritionScore, List<Ingredient> ingredients,
+	public Produit(Categorie categorie, String marque, String nom, String nutritionScore, List<Ingredient> ingredients,
 			String energie, String graisse, String sucre, String fibres, String proteine, String sel, String vitA,
 			String vitD, String vitE, String vitK, String vitC, String vitB1, String vitB2, String vitPP, String vitB6,
 			String vitB9, String vitB12, String calcium, String mangesium, String iron, String fer, String betaCarotene,
@@ -152,9 +154,9 @@ public class Produit {
 		this.additifs = additifs;
 	}
 
-	public Produit(String categorie, String marque, String nom, String nutritionScore, String energie, String graisse,
-			String sucre, String fibres, String proteine, String sel, String vitA, String vitD, String vitE,
-			String vitK, String vitC, String vitB1, String vitB2, String vitPP, String vitB6, String vitB9,
+	public Produit(Categorie categorie, String marque, String nom, String nutritionScore, String energie,
+			String graisse, String sucre, String fibres, String proteine, String sel, String vitA, String vitD,
+			String vitE, String vitK, String vitC, String vitB1, String vitB2, String vitPP, String vitB6, String vitB9,
 			String vitB12, String calcium, String mangesium, String iron, String fer, String betaCarotene,
 			String huileDePalme, String allergenes, String additifs) {
 		super();
@@ -209,11 +211,11 @@ public class Produit {
 		this.id = id;
 	}
 
-	public String getCategorie() {
+	public Categorie getCategorie() {
 		return categorie;
 	}
 
-	public void setCategorie(String categorie) {
+	public void setCategorie(Categorie categorie) {
 		this.categorie = categorie;
 	}
 

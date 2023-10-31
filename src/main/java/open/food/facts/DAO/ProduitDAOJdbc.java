@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import open.food.facts.entites.Categorie;
 import open.food.facts.entites.Produit;
 import open.food.facts.erreur.ExceptionTechnique;
 
@@ -26,7 +27,8 @@ public class ProduitDAOJdbc implements ProduitDAO {
 			ResultSet curseur = stat.executeQuery(
 					"SELECT categorie, marque, nom, nutritionScore, energie, graisse,sucre, fibres, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2, vitPP, vitB6, vitB9,vitB12, calcium, mangesium, iron, fer, betaCarotene, huileDePalme, allergenes, additifs FROM PRODUIT");
 			while (curseur.next()) {
-				String categorie = curseur.getString("categorie");
+				String stringCategorie = curseur.getString("categorie");
+				Categorie categorie = new Categorie(stringCategorie);
 				String marque = curseur.getString("marque");
 				String nom = curseur.getString("nom");
 				String nutritionScore = curseur.getString("nutritionScore");
@@ -82,7 +84,7 @@ public class ProduitDAOJdbc implements ProduitDAO {
 
 			insertProduit = connection.prepareStatement(
 					"INSERT INTO PRODUIT (categorie, marque, nom, nutritionScore, energie, graisse, sucre, fibres, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2, vitPP, vitB6, vitB9, vitB12, calcium, mangesium, iron, fer, betaCarotene, huileDePalme, allergenes, additifs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			insertProduit.setString(1, produit.getCategorie());
+			insertProduit.setObject(1, produit.getCategorie());
 			insertProduit.setString(2, produit.getMarque());
 			insertProduit.setString(3, produit.getNom());
 			insertProduit.setString(4, produit.getNutritionScore());
