@@ -1,7 +1,9 @@
 package open.food.facts.entites;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,10 +22,11 @@ public class Categorie {
 	@Column(name = "NOM", length = 5000)
 	String nom;
 
-	@OneToMany(mappedBy = "categorie")
+	@OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL)
 	List<Produit> produits;
 
 	public Categorie() {
+		produits = new ArrayList<>();
 	}
 
 	public Categorie(String nom) {

@@ -35,8 +35,8 @@ public class IntegrationOpenFoodFacts {
 		List<Allergene> arrayAllergeneGlobal = new ArrayList<Allergene>();
 		List<Additif> arrayAdditifGlobal = new ArrayList<Additif>();
 		List<ErreurSaisie> arrayESGlobal = new ArrayList<>();
-		List<Categorie> arrayCategorieGlobal = new ArrayList<>();
-		List<Marque> arrayMarqueGlobal = new ArrayList<>();
+		List<String> arrayCategorie = new ArrayList<>();
+		List<String> arrayMarque = new ArrayList<>();
 
 		Path pathfile = Paths.get("C:/temp/open-food-facts.csv");
 
@@ -143,7 +143,6 @@ public class IntegrationOpenFoodFacts {
 
 					for (String ingredient : listIngredient) {
 						Ingredient ingre = new Ingredient(ingredient);
-						arrayIngredientGlobal.add(ingre);
 						arrayIngre.add(ingre);
 					}
 
@@ -167,17 +166,73 @@ public class IntegrationOpenFoodFacts {
 						arrayAdd.add(add);
 					}
 
-					Categorie newCategorie = new Categorie(stringCategorie);
-					Marque newMarque = new Marque(stringMarque);
+					em.getTransaction().begin();
 
-					Produit produit = new Produit(newCategorie, newMarque, nom, nutritionScore, arrayIngre, energie,
-							graisse, sucre, fibres, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2, vitPP,
-							vitB6, vitB9, vitB12, calcium, mangesium, iron, fer, betaCarotene, huileDePalme,
-							arrayAllerg, arrayAdd);
-					
-					arrayMarqueGlobal.add(newMarque);
-					arrayCategorieGlobal.add(newCategorie);
-					arrayProduitGlobal.add(produit);
+					Categorie categorie = new Categorie();
+					Marque marque = new Marque();
+					Produit produit = new Produit();
+
+					produit.setNom(nom);
+					produit.setNutritionScore(nutritionScore);
+					produit.setIngredients(arrayIngre);
+					produit.setEnergie(energie);
+					produit.setGraisse(graisse);
+					produit.setSucre(sucre);
+					produit.setFibres(fibres);
+					produit.setProteine(proteine);
+					produit.setSel(sel);
+					produit.setVitA(vitA);
+					produit.setVitD(vitD);
+					produit.setVitE(vitE);
+					produit.setVitK(vitK);
+					produit.setVitC(vitC);
+					produit.setVitB1(vitB1);
+					produit.setVitB2(vitB2);
+					produit.setVitPP(vitPP);
+					produit.setVitB6(vitB6);
+					produit.setVitB9(vitB9);
+					produit.setVitB12(vitB12);
+					produit.setCalcium(calcium);
+					produit.setMangesium(mangesium);
+					produit.setIron(iron);
+					produit.setFer(fer);
+					produit.setBetaCarotene(betaCarotene);
+					produit.setHuileDePalme(huileDePalme);
+					produit.setAllergenes(arrayAllerg);
+					produit.setAdditifs(arrayAdd);
+
+					for (Ingredient ingre : arrayIngre) {
+						em.persist(ingre);
+					}
+
+					for (Allergene aller : arrayAllerg) {
+						em.persist(aller);
+					}
+
+					for (Additif add : arrayAdd) {
+						em.persist(add);
+					}
+
+					if (!arrayCategorie.contains(stringCategorie)) {
+						arrayCategorie.add(stringCategorie);
+						categorie.setNom(stringCategorie);
+						em.persist(categorie);
+					}
+
+					if (!arrayMarque.contains(stringMarque)) {
+						arrayMarque.add(stringMarque);
+						marque.setNom(stringMarque);
+						em.persist(marque);
+					}
+
+					categorie.getProduits().add(produit);
+					marque.getProduits().add(produit);
+					produit.setCategorie(categorie);
+					produit.setMarque(marque);
+
+					em.persist(produit);
+
+					em.getTransaction().commit();
 
 				} else {
 					ErreurSaisie erreursaisie = new ErreurSaisie(line);
@@ -189,29 +244,29 @@ public class IntegrationOpenFoodFacts {
 		}
 
 		em.getTransaction().begin();
-		for (Ingredient ingredients : arrayIngredientGlobal) {
-			em.persist(ingredients);
-		}
+//		for (Ingredient ingredients : arrayIngredientGlobal) {
+//			em.persist(ingredients);
+//		}
 
-		for (Allergene allergenes : arrayAllergeneGlobal) {
-			em.persist(allergenes);
-		}
+//		for (Allergene allergenes : arrayAllergeneGlobal) {
+//			em.persist(allergenes);
+//		}
+//
+//		for (Additif additifs : arrayAdditifGlobal) {
+//			em.persist(additifs);
+//		}
 
-		for (Additif additifs : arrayAdditifGlobal) {
-			em.persist(additifs);
-		}
+//		for (Categorie categories : arrayCategorieGlobal) {
+//			em.persist(categories);
+//		}
+//
+//		for (Marque marques : arrayMarqueGlobal) {
+//			em.persist(marques);
+//		}
 
-		for (Categorie categories : arrayCategorieGlobal) {
-			em.persist(categories);
-		}
-		
-		for (Marque marques : arrayMarqueGlobal) {
-			em.persist(marques);
-		}
-
-		for (Produit produits : arrayProduitGlobal) {
-			em.persist(produits);
-		}
+//		for (Produit produits : arrayProduitGlobal) {
+//			em.persist(produits);
+//		}
 
 		for (ErreurSaisie erreursaisies : arrayESGlobal) {
 			em.persist(erreursaisies);

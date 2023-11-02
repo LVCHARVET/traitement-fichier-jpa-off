@@ -9,7 +9,7 @@ public class MenuAffichageOpenFoodFacts {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		int choix = 0;
-//
+
 //		while (choix != 7) {
 //			System.out.println("Menu :");
 //			System.out.println("1. Affichez les 10 produits les mieux notés d'une catégorie");
@@ -25,12 +25,12 @@ public class MenuAffichageOpenFoodFacts {
 //			System.out.println("7. Sortir");
 //			System.out.print("Veuillez choisir une option : ");
 //			choix = scanner.nextInt();
-//
+
 //			switch (choix) {
 //			case 1:
 //				Scanner scannerUniqueVille = new Scanner(System.in);
-//				System.out.println("1. Population d'une ville donnée");
-//				System.out.print("Nom de ville : ");
+//				System.out.println("1. Les 10 produits les mieux notés :");
+//				System.out.print("Nom de la categorie : ");
 //				MenuService rechercheVille = new MenuUniqueVille();
 //				rechercheVille.traiter(recensementVille, scannerUniqueVille);
 //				break;
@@ -82,7 +82,6 @@ public class MenuAffichageOpenFoodFacts {
 //			}
 //		}
 //		scanner.close();
-//
 	}
 
 }

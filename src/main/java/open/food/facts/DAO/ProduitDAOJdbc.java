@@ -58,9 +58,9 @@ public class ProduitDAOJdbc implements ProduitDAO {
 				String betaCarotene = curseur.getString("betaCarotene");
 				String huileDePalme = curseur.getString("huileDePalme");
 
-				Produit produitActuel = new Produit(categorie, marque, nom, nutritionScore, energie, graisse, sucre,
+				Produit produitActuel = new Produit(categorie, marque, nom, nutritionScore, null, energie, graisse, sucre,
 						fibres, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2, vitPP, vitB6, vitB9, vitB12,
-						calcium, mangesium, iron, fer, betaCarotene, huileDePalme);
+						calcium, mangesium, iron, fer, betaCarotene, huileDePalme, null, null);
 				arrayProduit.add(produitActuel);
 			}
 
@@ -158,6 +158,36 @@ public class ProduitDAOJdbc implements ProduitDAO {
 		}
 		System.out.println(nb);
 		return false;
+	}
+
+	@Override
+	public List<Produit> getTop10ProduitCategorie() {
+		List<Produit> top10Produits = new ArrayList<>();
+		PreparedStatement getTop10ProduitCategorie = null;
+		ResultSet resultSet = null;
+
+		try {
+			String sqlQuery = "SELECT * FROM produits WHERE scoreNutritif = 'A' "
+					+ "GROUP BY categorie HAVING COUNT(*) >= 10 ORDER BY categorie, COUNT(*) DESC LIMIT 10";
+
+			getTop10ProduitCategorie = connection.prepareStatement(sqlQuery);
+			resultSet = getTop10ProduitCategorie.executeQuery();
+
+			while (resultSet.next()) {
+				Produit produit = new Produit();
+				produit.setNom(resultSet.getString("nom"));
+				Categorie categorie = new Categorie(resultSet.getString("categorie"));
+				produit.setCategorie(categorie);
+				produit.setNutritionScore(resultSet.getString("scoreNutritif"));
+				top10Produits.add(produit);
+			}
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+
+			throw new ExceptionTechnique("Un probléme est survenu lors de la suppression d'élément vers la DB", e);
+		}
+
+		return top10Produits;
 	}
 
 }

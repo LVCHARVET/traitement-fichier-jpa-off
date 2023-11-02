@@ -22,11 +22,11 @@ public class Produit {
 	int id;
 
 	@ManyToOne
-	@JoinColumn(name = "ID_CATEGORIE", referencedColumnName = "ID")
+	@JoinColumn(name = "ID_CATEGORIE")
 	Categorie categorie;
 
 	@ManyToOne
-	@JoinColumn(name = "ID_MARQUE", referencedColumnName = "ID")
+	@JoinColumn(name = "ID_MARQUE")
 	Marque marque;
 
 	@Column(name = "NOM")
@@ -119,77 +119,19 @@ public class Produit {
 	public Produit() {
 	}
 
-	public Produit(Categorie categorie, Marque marque, String nom, String nutritionScore, List<Ingredient> ingredients,
-			String energie, String graisse, String sucre, String fibres, String proteine, String sel, String vitA,
-			String vitD, String vitE, String vitK, String vitC, String vitB1, String vitB2, String vitPP, String vitB6,
-			String vitB9, String vitB12, String calcium, String mangesium, String iron, String fer, String betaCarotene,
-			String huileDePalme, List<Allergene> allergenes, List<Additif> additifs) {
-		super();
-		this.categorie = categorie;
-		this.marque = marque;
-		this.nom = nom;
-		this.nutritionScore = nutritionScore;
-		this.ingredients = ingredients;
-		this.energie = energie;
-		this.graisse = graisse;
-		this.sucre = sucre;
-		this.fibres = fibres;
-		this.proteine = proteine;
-		this.sel = sel;
-		this.vitA = vitA;
-		this.vitD = vitD;
-		this.vitE = vitE;
-		this.vitK = vitK;
-		this.vitC = vitC;
-		this.vitB1 = vitB1;
-		this.vitB2 = vitB2;
-		this.vitPP = vitPP;
-		this.vitB6 = vitB6;
-		this.vitB9 = vitB9;
-		this.vitB12 = vitB12;
-		this.calcium = calcium;
-		this.mangesium = mangesium;
-		this.iron = iron;
-		this.fer = fer;
-		this.betaCarotene = betaCarotene;
-		this.huileDePalme = huileDePalme;
-		this.allergenes = allergenes;
-		this.additifs = additifs;
+	public Produit(String nom2, String nutritionScore2, List<Ingredient> arrayIngre, String energie2, String graisse2,
+			String sucre2, String fibres2, String proteine2, String sel2, String vitA2, String vitD2, String vitE2,
+			String vitK2, String vitC2, String vitB13, String vitB22, String vitPP2, String vitB62, String vitB92,
+			String vitB122, String calcium2, String mangesium2, String iron2, String fer2, String betaCarotene2,
+			String huileDePalme2, List<Allergene> arrayAllerg, List<Additif> arrayAdd) {
 	}
 
-	public Produit(Categorie categorie, Marque marque, String nom, String nutritionScore, String energie,
-			String graisse, String sucre, String fibres, String proteine, String sel, String vitA, String vitD,
-			String vitE, String vitK, String vitC, String vitB1, String vitB2, String vitPP, String vitB6, String vitB9,
-			String vitB12, String calcium, String mangesium, String iron, String fer, String betaCarotene,
-			String huileDePalme) {
-		super();
-		this.categorie = categorie;
-		this.marque = marque;
-		this.nom = nom;
-		this.nutritionScore = nutritionScore;
-		this.energie = energie;
-		this.graisse = graisse;
-		this.sucre = sucre;
-		this.fibres = fibres;
-		this.proteine = proteine;
-		this.sel = sel;
-		this.vitA = vitA;
-		this.vitD = vitD;
-		this.vitE = vitE;
-		this.vitK = vitK;
-		this.vitC = vitC;
-		this.vitB1 = vitB1;
-		this.vitB2 = vitB2;
-		this.vitPP = vitPP;
-		this.vitB6 = vitB6;
-		this.vitB9 = vitB9;
-		this.vitB12 = vitB12;
-		this.calcium = calcium;
-		this.mangesium = mangesium;
-		this.iron = iron;
-		this.fer = fer;
-		this.betaCarotene = betaCarotene;
-		this.huileDePalme = huileDePalme;
+	public Produit(Categorie newCategorie, Marque newMarque, String nom2, String nutritionScore2,
+			List<Ingredient> arrayIngre, String energie2, String graisse2, String sucre2, String fibres2,
+			String proteine2, String sel2, String vitA2, String vitD2, String vitE2, String vitK2, String vitC2,
+			String vitB13, String vitB22, String vitPP2, String vitB62, String vitB92, String vitB122, String calcium2,
+			String mangesium2, String iron2, String fer2, String betaCarotene2, String huileDePalme2,
+			List<Allergene> arrayAllerg, List<Additif> arrayAdd) {
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package open.food.facts.entites;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,6 +25,7 @@ public class Marque {
 	List<Produit> produits;
 
 	public Marque() {
+		produits = new ArrayList<>();
 	}
 
 	public Marque(String nom) {
