@@ -11,8 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CATEGORIE")
-public class Categorie {
+@Table(name = "MARQUE")
+public class Marque {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
@@ -20,19 +20,19 @@ public class Categorie {
 	@Column(name = "NOM", length = 5000)
 	String nom;
 
-	@OneToMany(mappedBy = "categorie")
+	@OneToMany(mappedBy = "marque")
 	List<Produit> produits;
 
-	public Categorie() {
+	public Marque() {
 	}
 
-	public Categorie(String nom) {
+	public Marque(String nom) {
 		this.nom = nom;
 	}
 
 	@Override
 	public String toString() {
-		return "Categorie [id=" + id + ", nom=" + nom + ", produits=" + produits + "]";
+		return "Marque [id=" + id + ", nom=" + nom + ", produits=" + produits + "]";
 	}
 
 	public int getId() {

@@ -20,6 +20,7 @@ import open.food.facts.entites.Allergene;
 import open.food.facts.entites.Categorie;
 import open.food.facts.entites.ErreurSaisie;
 import open.food.facts.entites.Ingredient;
+import open.food.facts.entites.Marque;
 import open.food.facts.entites.Produit;
 
 public class IntegrationOpenFoodFacts {
@@ -35,6 +36,7 @@ public class IntegrationOpenFoodFacts {
 		List<Additif> arrayAdditifGlobal = new ArrayList<Additif>();
 		List<ErreurSaisie> arrayESGlobal = new ArrayList<>();
 		List<Categorie> arrayCategorieGlobal = new ArrayList<>();
+		List<Marque> arrayMarqueGlobal = new ArrayList<>();
 
 		Path pathfile = Paths.get("C:/temp/open-food-facts.csv");
 
@@ -50,7 +52,7 @@ public class IntegrationOpenFoodFacts {
 
 			if (i > 1) {
 				String stringCategorie = tokens[0];
-				String marque = tokens[1];
+				String stringMarque = tokens[1];
 				String nom = tokens[2];
 				String nutritionScore = tokens[3];
 				String ingredients = tokens[4];
@@ -109,11 +111,11 @@ public class IntegrationOpenFoodFacts {
 
 				}
 
-				String[] allergeneFiltre1 = allergenes.split(",");
+				String[] allergeneFiltre = allergenes.split(",");
 
-				if (allergeneFiltre1.length > 1) {
+				if (allergeneFiltre.length > 1) {
 
-					for (String chainAllergene : allergeneFiltre1) {
+					for (String chainAllergene : allergeneFiltre) {
 						chainAllergene = chainAllergene.replaceAll("E\\d", "");
 						chainAllergene = chainAllergene.replaceAll("en:", "").trim();
 
@@ -122,11 +124,11 @@ public class IntegrationOpenFoodFacts {
 
 				}
 
-				String[] additifFiltre1 = additifs.split(",");
+				String[] additifFiltre = additifs.split(",");
 
-				if (additifFiltre1.length > 1) {
+				if (additifFiltre.length > 1) {
 
-					for (String chainAdditif : additifFiltre1) {
+					for (String chainAdditif : additifFiltre) {
 
 						arrayAdditif.add(chainAdditif);
 					}
@@ -165,25 +167,22 @@ public class IntegrationOpenFoodFacts {
 						arrayAdd.add(add);
 					}
 
-					Categorie categorieActuel = new Categorie(stringCategorie);
-					/*
-					 * if (!arrayCategorieGlobal.contains(categorieActuel)) {
-					 * arrayCategorieGlobal.add(categorieActuel); }
-					 */
-					arrayCategorieGlobal.add(categorieActuel);
+					Categorie newCategorie = new Categorie(stringCategorie);
+					Marque newMarque = new Marque(stringMarque);
 
-					Produit produit = new Produit(categorieActuel, marque, nom, nutritionScore, arrayIngre, energie,
+					Produit produit = new Produit(newCategorie, newMarque, nom, nutritionScore, arrayIngre, energie,
 							graisse, sucre, fibres, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2, vitPP,
 							vitB6, vitB9, vitB12, calcium, mangesium, iron, fer, betaCarotene, huileDePalme,
 							arrayAllerg, arrayAdd);
-
+					
+					arrayMarqueGlobal.add(newMarque);
+					arrayCategorieGlobal.add(newCategorie);
 					arrayProduitGlobal.add(produit);
 
 				} else {
-					System.out.println(line);
 					ErreurSaisie erreursaisie = new ErreurSaisie(line);
 					arrayESGlobal.add(erreursaisie);
-					
+
 				}
 
 			}
@@ -197,7 +196,7 @@ public class IntegrationOpenFoodFacts {
 		for (Allergene allergenes : arrayAllergeneGlobal) {
 			em.persist(allergenes);
 		}
-		
+
 		for (Additif additifs : arrayAdditifGlobal) {
 			em.persist(additifs);
 		}
@@ -205,11 +204,15 @@ public class IntegrationOpenFoodFacts {
 		for (Categorie categories : arrayCategorieGlobal) {
 			em.persist(categories);
 		}
+		
+		for (Marque marques : arrayMarqueGlobal) {
+			em.persist(marques);
+		}
 
 		for (Produit produits : arrayProduitGlobal) {
 			em.persist(produits);
 		}
-		
+
 		for (ErreurSaisie erreursaisies : arrayESGlobal) {
 			em.persist(erreursaisies);
 		}

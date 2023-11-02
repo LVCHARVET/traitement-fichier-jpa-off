@@ -22,11 +22,12 @@ public class Produit {
 	int id;
 
 	@ManyToOne
-	@JoinColumn(name = "CATEGORIE")
+	@JoinColumn(name = "ID_CATEGORIE", referencedColumnName = "ID")
 	Categorie categorie;
 
-	@Column(name = "MARQUE")
-	String marque;
+	@ManyToOne
+	@JoinColumn(name = "ID_MARQUE", referencedColumnName = "ID")
+	Marque marque;
 
 	@Column(name = "NOM")
 	String nom;
@@ -118,7 +119,7 @@ public class Produit {
 	public Produit() {
 	}
 
-	public Produit(Categorie categorie, String marque, String nom, String nutritionScore, List<Ingredient> ingredients,
+	public Produit(Categorie categorie, Marque marque, String nom, String nutritionScore, List<Ingredient> ingredients,
 			String energie, String graisse, String sucre, String fibres, String proteine, String sel, String vitA,
 			String vitD, String vitE, String vitK, String vitC, String vitB1, String vitB2, String vitPP, String vitB6,
 			String vitB9, String vitB12, String calcium, String mangesium, String iron, String fer, String betaCarotene,
@@ -156,7 +157,7 @@ public class Produit {
 		this.additifs = additifs;
 	}
 
-	public Produit(Categorie categorie, String marque, String nom, String nutritionScore, String energie,
+	public Produit(Categorie categorie, Marque marque, String nom, String nutritionScore, String energie,
 			String graisse, String sucre, String fibres, String proteine, String sel, String vitA, String vitD,
 			String vitE, String vitK, String vitC, String vitB1, String vitB2, String vitPP, String vitB6, String vitB9,
 			String vitB12, String calcium, String mangesium, String iron, String fer, String betaCarotene,
@@ -219,11 +220,11 @@ public class Produit {
 		this.categorie = categorie;
 	}
 
-	public String getMarque() {
+	public Marque getMarque() {
 		return marque;
 	}
 
-	public void setMarque(String marque) {
+	public void setMarque(Marque marque) {
 		this.marque = marque;
 	}
 
