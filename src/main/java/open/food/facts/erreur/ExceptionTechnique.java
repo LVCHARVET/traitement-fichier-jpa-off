@@ -1,5 +1,11 @@
 package open.food.facts.erreur;
 
+/**
+ * Gestion des erreurs lié au deux applications
+ * 
+ * @author ShiShi
+ *
+ */
 public class ExceptionTechnique extends RuntimeException {
 
 	/**

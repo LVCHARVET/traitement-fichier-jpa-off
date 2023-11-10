@@ -23,13 +23,22 @@ import open.food.facts.entites.Ingredient;
 import open.food.facts.entites.Marque;
 import open.food.facts.entites.Produit;
 
+/**
+ * Class servant à la lecture du fichier CSV contenant les informations saisi
+ * par les utilisateurs. Et définissant les objets pour l'écriture des
+ * informations en base de donné.
+ * 
+ * @author Louis-Valentin CHARVET
+ */
 public class IntegrationOpenFoodFacts {
 
 	public static void main(String[] args) throws IOException {
 
+		// Connection a la base de donnée
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("open-food-facts");
 		EntityManager em = emf.createEntityManager();
 
+		// Définition des tableaux contenant les informations récupéré
 		List<Produit> arrayProduitGlobal = new ArrayList<Produit>();
 		List<Ingredient> arrayIngredientGlobal = new ArrayList<Ingredient>();
 		List<Allergene> arrayAllergeneGlobal = new ArrayList<Allergene>();
@@ -40,19 +49,28 @@ public class IntegrationOpenFoodFacts {
 		List<String> arrayCategorie = new ArrayList<>();
 		List<String> arrayMarque = new ArrayList<>();
 
+		// Chemin vers le fichier csv
 		Path pathfile = Paths.get("C:/temp/open-food-facts.csv");
 
+		// Découpe du fichier en ligne
 		List<String> lines = Files.readAllLines(pathfile);
 
+		// Boucle sur chaque ligne du fichier
 		for (int i = 0; i < lines.size(); i++) {
+
+			// Tableaux instancié des informations
 			List<String> arrayIngredient = new ArrayList<>();
 			List<String> arrayAllergene = new ArrayList<>();
 			List<String> arrayAdditif = new ArrayList<>();
 
+			// Découpe des lignes en token
 			String line = lines.get(i);
 			String[] tokens = line.split("\\|", -1);
 
+			// Suppression de la premiére ligne du fichier CSV contenant l'entéte du tableau
 			if (i > 1) {
+
+				// Récupération des token et assignation des futures variables d'un Produit
 				String stringCategorie = tokens[0];
 				String stringMarque = tokens[1];
 				String nom = tokens[2];
@@ -84,6 +102,7 @@ public class IntegrationOpenFoodFacts {
 				String allergenes = tokens[28];
 				String additifs = tokens[29];
 
+				// Filtrage des informations saisi par les utilisateurs pour les Ingrédients
 				String[] ingredientFiltre1 = ingredients.split("[,;:-]");
 
 				if (ingredientFiltre1.length > 1) {
@@ -113,6 +132,7 @@ public class IntegrationOpenFoodFacts {
 
 				}
 
+				// Filtrage des informations saisi par les utilisateurs pour les Allergenes
 				String[] allergeneFiltre = allergenes.split(",");
 
 				if (allergeneFiltre.length > 1) {
@@ -126,6 +146,7 @@ public class IntegrationOpenFoodFacts {
 
 				}
 
+				// Filtrage des informations saisi par les utilisateurs pour les Additifs
 				String[] additifFiltre = additifs.split(",");
 
 				if (additifFiltre.length > 1) {
@@ -137,38 +158,46 @@ public class IntegrationOpenFoodFacts {
 
 				}
 
+				// Suppression des problémes de saisi
 				if (NumberUtils.isCreatable(energie) && NumberUtils.isCreatable(graisse)) {
 
+					// Suppression des doublons dans la liste Ingredient
 					Set<String> triIngredient = new HashSet<>(arrayIngredient);
 					List<String> listIngredient = new ArrayList<>(triIngredient);
 					List<Ingredient> arrayIngre = new ArrayList<>();
 
+					// Définition de l'objet par le nom et insertion dans les tableaux
 					for (String ingredient : listIngredient) {
 						Ingredient ingre = new Ingredient(ingredient);
 						arrayIngredientGlobal.add(ingre);
 						arrayIngre.add(ingre);
 					}
 
+					// Suppression des doublons dans la liste Allergene
 					Set<String> triAllergene = new HashSet<>(arrayAllergene);
 					List<String> listAllergene = new ArrayList<>(triAllergene);
 					List<Allergene> arrayAllerg = new ArrayList<>();
 
+					// Définition de l'objet par le nom et insertion dans les tableaux
 					for (String allergene : listAllergene) {
 						Allergene Allerg = new Allergene(allergene);
 						arrayAllergeneGlobal.add(Allerg);
 						arrayAllerg.add(Allerg);
 					}
 
+					// Suppression des doublons dans la liste Additif
 					Set<String> triAdditif = new HashSet<>(arrayAdditif);
 					List<String> listAdditif = new ArrayList<>(triAdditif);
 					List<Additif> arrayAdd = new ArrayList<>();
 
+					// Définition de l'objet par le nom et insertion dans les tableaux
 					for (String additif : listAdditif) {
 						Additif add = new Additif(additif);
 						arrayAdditifGlobal.add(add);
 						arrayAdd.add(add);
 					}
 
+					// Initialisation du produit actuel
 					Produit produit = new Produit();
 
 					produit.setNom(nom);
@@ -200,6 +229,7 @@ public class IntegrationOpenFoodFacts {
 					produit.setAllergenes(arrayAllerg);
 					produit.setAdditifs(arrayAdd);
 
+					// Insertion en BDD des Ingredients, Allergenes, Additifs, Categorie et Marque
 					em.getTransaction().begin();
 
 					for (Ingredient ingre : arrayIngre) {
@@ -232,7 +262,7 @@ public class IntegrationOpenFoodFacts {
 						Marque newMarque = new Marque(stringMarque);
 						arrayMarqueGlobal.add(newMarque);
 					}
-					
+
 					for (Marque marques : arrayMarqueGlobal) {
 						if (marques.getNom().equals(stringMarque)) {
 							produit.setMarque(marques);
@@ -242,9 +272,11 @@ public class IntegrationOpenFoodFacts {
 
 					em.getTransaction().commit();
 
+					// Mise en tableau de l'objet produit
 					arrayProduitGlobal.add(produit);
 
 				} else {
+					// Recuperation des erreurs de saisi
 					ErreurSaisie erreursaisie = new ErreurSaisie(line);
 					arrayESGlobal.add(erreursaisie);
 
@@ -253,6 +285,8 @@ public class IntegrationOpenFoodFacts {
 			}
 		}
 
+		// Insertion en BDD des produits via un tableau pour limiter le nombre
+		// d'ouverture de transaction
 		em.getTransaction().begin();
 
 		for (Produit produits : arrayProduitGlobal) {
@@ -260,6 +294,9 @@ public class IntegrationOpenFoodFacts {
 		}
 
 		em.getTransaction().commit();
+
+		// Insertion en BDD des erreurs de saisi via un tableau pour limiter le nombre
+		// d'ouverture de transaction
 		em.getTransaction().begin();
 
 		for (ErreurSaisie erreursaisies : arrayESGlobal) {
@@ -267,6 +304,8 @@ public class IntegrationOpenFoodFacts {
 		}
 
 		em.getTransaction().commit();
+
+		// Fermeture de la connection a la BDD
 		em.close();
 		emf.close();
 
