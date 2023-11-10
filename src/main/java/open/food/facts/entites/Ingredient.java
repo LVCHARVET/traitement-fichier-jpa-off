@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -23,8 +21,7 @@ public class Ingredient {
 	@Column(name = "NOM", length = 5000)
 	String nom;
 
-	@ManyToMany
-	@JoinTable(name = "COMPO_PRODUIT_INGREDIENT", joinColumns = @JoinColumn(name = "ID_INGREDIENT", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_PRODUIT", referencedColumnName = "ID"))
+	@ManyToMany(mappedBy = "ingredients")
 	List<Produit> produits;
 
 	public Ingredient() {
@@ -36,7 +33,7 @@ public class Ingredient {
 
 	@Override
 	public String toString() {
-		return "Ingredient [id=" + id + ", nom=" + nom + ", Produits=" + produits + "]";
+		return "Ingredient [id=" + id + ", nom=" + nom + "]";
 	}
 
 	public int getId() {

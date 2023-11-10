@@ -36,7 +36,7 @@ public class Produit {
 	String nutritionScore;
 
 	@ManyToMany
-	@JoinTable(name = "COMPO_PRODUIT_INGREDIENT", joinColumns = @JoinColumn(name = "ID_PRODUIT", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_INGREDIENT", referencedColumnName = "ID"))
+	@JoinTable(name = "COMPO_PRODUIT_INGREDIENT", joinColumns = @JoinColumn(name = "ID_PRODUIT"), inverseJoinColumns = @JoinColumn(name = "ID_INGREDIENT"))
 	List<Ingredient> ingredients;
 
 	@Column(name = "ENERGIE")
@@ -109,11 +109,11 @@ public class Produit {
 	String huileDePalme;
 
 	@ManyToMany
-	@JoinTable(name = "COMPO_PRODUIT_ALLERGENE", joinColumns = @JoinColumn(name = "ID_PRODUIT", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_ALLERGENE", referencedColumnName = "ID"))
+	@JoinTable(name = "COMPO_PRODUIT_ALLERGENE", joinColumns = @JoinColumn(name = "ID_PRODUIT"), inverseJoinColumns = @JoinColumn(name = "ID_ALLERGENE"))
 	List<Allergene> allergenes;
 
 	@ManyToMany
-	@JoinTable(name = "COMPO_PRODUIT_ADDITIF", joinColumns = @JoinColumn(name = "ID_PRODUIT", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_ADDITIF", referencedColumnName = "ID"))
+	@JoinTable(name = "COMPO_PRODUIT_ADDITIF", joinColumns = @JoinColumn(name = "ID_PRODUIT"), inverseJoinColumns = @JoinColumn(name = "ID_ADDITIF"))
 	List<Additif> additifs;
 
 	public Produit() {
@@ -137,13 +137,12 @@ public class Produit {
 	@Override
 	public String toString() {
 		return "Produit [id=" + id + ", categorie=" + categorie + ", marque=" + marque + ", nom=" + nom
-				+ ", nutritionScore=" + nutritionScore + ", Ingredients=" + ingredients + ", energie=" + energie
-				+ ", graisse=" + graisse + ", sucre=" + sucre + ", fibres=" + fibres + ", proteine=" + proteine
-				+ ", sel=" + sel + ", vitA=" + vitA + ", vitD=" + vitD + ", vitE=" + vitE + ", vitK=" + vitK + ", vitC="
-				+ vitC + ", vitB1=" + vitB1 + ", vitB2=" + vitB2 + ", vitPP=" + vitPP + ", vitB6=" + vitB6 + ", vitB9="
-				+ vitB9 + ", vitB12=" + vitB12 + ", calcium=" + calcium + ", mangesium=" + mangesium + ", iron=" + iron
-				+ ", fer=" + fer + ", betaCarotene=" + betaCarotene + ", huileDePalme=" + huileDePalme + ", allergenes="
-				+ allergenes + ", additifs=" + additifs + "]";
+				+ ", nutritionScore=" + nutritionScore + ", energie=" + energie + ", graisse=" + graisse + ", sucre="
+				+ sucre + ", fibres=" + fibres + ", proteine=" + proteine + ", sel=" + sel + ", vitA=" + vitA
+				+ ", vitD=" + vitD + ", vitE=" + vitE + ", vitK=" + vitK + ", vitC=" + vitC + ", vitB1=" + vitB1
+				+ ", vitB2=" + vitB2 + ", vitPP=" + vitPP + ", vitB6=" + vitB6 + ", vitB9=" + vitB9 + ", vitB12="
+				+ vitB12 + ", calcium=" + calcium + ", mangesium=" + mangesium + ", iron=" + iron + ", fer=" + fer
+				+ ", betaCarotene=" + betaCarotene + ", huileDePalme=" + huileDePalme + ", additifs=" + additifs + "]";
 	}
 
 	public int getId() {
