@@ -1,0 +1,220 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1:3307
+-- Généré le : ven. 10 nov. 2023 à 15:46
+-- Version du serveur : 10.10.2-MariaDB
+-- Version de PHP : 8.0.26
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de données : `open-food-facts`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `additif`
+--
+
+DROP TABLE IF EXISTS `additif`;
+CREATE TABLE IF NOT EXISTS `additif` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `NOM` varchar(5000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `allergene`
+--
+
+DROP TABLE IF EXISTS `allergene`;
+CREATE TABLE IF NOT EXISTS `allergene` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `NOM` varchar(5000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `categorie`
+--
+
+DROP TABLE IF EXISTS `categorie`;
+CREATE TABLE IF NOT EXISTS `categorie` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `NOM` varchar(5000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `compo_produit_additif`
+--
+
+DROP TABLE IF EXISTS `compo_produit_additif`;
+CREATE TABLE IF NOT EXISTS `compo_produit_additif` (
+  `ID_PRODUIT` int(11) NOT NULL,
+  `ID_ADDITIF` int(11) NOT NULL,
+  KEY `FKjb179i3wgr4pxxanwpu4p57xe` (`ID_ADDITIF`),
+  KEY `FKasmthcantpywk1g0gkh5y5osd` (`ID_PRODUIT`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `compo_produit_allergene`
+--
+
+DROP TABLE IF EXISTS `compo_produit_allergene`;
+CREATE TABLE IF NOT EXISTS `compo_produit_allergene` (
+  `ID_PRODUIT` int(11) NOT NULL,
+  `ID_ALLERGENE` int(11) NOT NULL,
+  KEY `FKqwqw708rfstwyyj81bdhf0yud` (`ID_ALLERGENE`),
+  KEY `FKxngl6hffo0vgivd06cdbj0xj` (`ID_PRODUIT`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `compo_produit_ingredient`
+--
+
+DROP TABLE IF EXISTS `compo_produit_ingredient`;
+CREATE TABLE IF NOT EXISTS `compo_produit_ingredient` (
+  `ID_PRODUIT` int(11) NOT NULL,
+  `ID_INGREDIENT` int(11) NOT NULL,
+  KEY `FKadxtqapa9xoymqdyudhfp4ho3` (`ID_INGREDIENT`),
+  KEY `FKcyd293x13qrnveq7dxxrsh5ik` (`ID_PRODUIT`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `erreur_saisie`
+--
+
+DROP TABLE IF EXISTS `erreur_saisie`;
+CREATE TABLE IF NOT EXISTS `erreur_saisie` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `NOM` varchar(5000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ingredient`
+--
+
+DROP TABLE IF EXISTS `ingredient`;
+CREATE TABLE IF NOT EXISTS `ingredient` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `NOM` varchar(5000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `marque`
+--
+
+DROP TABLE IF EXISTS `marque`;
+CREATE TABLE IF NOT EXISTS `marque` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `NOM` varchar(5000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `produit`
+--
+
+DROP TABLE IF EXISTS `produit`;
+CREATE TABLE IF NOT EXISTS `produit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `BETA_CAROTENE` varchar(255) DEFAULT NULL,
+  `CALCIUM` varchar(255) DEFAULT NULL,
+  `ENERGIE` varchar(255) DEFAULT NULL,
+  `FER` varchar(255) DEFAULT NULL,
+  `FIBRES` varchar(255) DEFAULT NULL,
+  `GRAISSE` varchar(255) DEFAULT NULL,
+  `HUILE_DE_PALME` varchar(255) DEFAULT NULL,
+  `IRON` varchar(255) DEFAULT NULL,
+  `MAGNESIUM` varchar(255) DEFAULT NULL,
+  `NOM` varchar(255) DEFAULT NULL,
+  `NUTRITION_SCORE` varchar(255) DEFAULT NULL,
+  `PROTEINE` varchar(255) DEFAULT NULL,
+  `SEL` varchar(255) DEFAULT NULL,
+  `SUCRE` varchar(255) DEFAULT NULL,
+  `VITA` varchar(255) DEFAULT NULL,
+  `VITB1` varchar(255) DEFAULT NULL,
+  `VITB12` varchar(255) DEFAULT NULL,
+  `VITB2` varchar(255) DEFAULT NULL,
+  `VITB6` varchar(255) DEFAULT NULL,
+  `VIB9` varchar(255) DEFAULT NULL,
+  `VITC` varchar(255) DEFAULT NULL,
+  `VITD` varchar(255) DEFAULT NULL,
+  `VITE` varchar(255) DEFAULT NULL,
+  `VITK` varchar(255) DEFAULT NULL,
+  `VITPP` varchar(255) DEFAULT NULL,
+  `ID_CATEGORIE` int(11) DEFAULT NULL,
+  `ID_MARQUE` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKhnvg7t8elseaajrpvp047wd76` (`ID_CATEGORIE`),
+  KEY `FKm830ens9udobrjneh056dngdu` (`ID_MARQUE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `compo_produit_additif`
+--
+ALTER TABLE `compo_produit_additif`
+  ADD CONSTRAINT `FKasmthcantpywk1g0gkh5y5osd` FOREIGN KEY (`ID_PRODUIT`) REFERENCES `produit` (`id`),
+  ADD CONSTRAINT `FKjb179i3wgr4pxxanwpu4p57xe` FOREIGN KEY (`ID_ADDITIF`) REFERENCES `additif` (`id`);
+
+--
+-- Contraintes pour la table `compo_produit_allergene`
+--
+ALTER TABLE `compo_produit_allergene`
+  ADD CONSTRAINT `FKqwqw708rfstwyyj81bdhf0yud` FOREIGN KEY (`ID_ALLERGENE`) REFERENCES `allergene` (`id`),
+  ADD CONSTRAINT `FKxngl6hffo0vgivd06cdbj0xj` FOREIGN KEY (`ID_PRODUIT`) REFERENCES `produit` (`id`);
+
+--
+-- Contraintes pour la table `compo_produit_ingredient`
+--
+ALTER TABLE `compo_produit_ingredient`
+  ADD CONSTRAINT `FKadxtqapa9xoymqdyudhfp4ho3` FOREIGN KEY (`ID_INGREDIENT`) REFERENCES `ingredient` (`id`),
+  ADD CONSTRAINT `FKcyd293x13qrnveq7dxxrsh5ik` FOREIGN KEY (`ID_PRODUIT`) REFERENCES `produit` (`id`);
+
+--
+-- Contraintes pour la table `produit`
+--
+ALTER TABLE `produit`
+  ADD CONSTRAINT `FKhnvg7t8elseaajrpvp047wd76` FOREIGN KEY (`ID_CATEGORIE`) REFERENCES `categorie` (`id`),
+  ADD CONSTRAINT `FKm830ens9udobrjneh056dngdu` FOREIGN KEY (`ID_MARQUE`) REFERENCES `marque` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
