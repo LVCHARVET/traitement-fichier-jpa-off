@@ -35,6 +35,8 @@ public class IntegrationOpenFoodFacts {
 		List<Allergene> arrayAllergeneGlobal = new ArrayList<Allergene>();
 		List<Additif> arrayAdditifGlobal = new ArrayList<Additif>();
 		List<ErreurSaisie> arrayESGlobal = new ArrayList<>();
+		List<Categorie> arrayCategorieGlobal = new ArrayList<Categorie>();
+		List<Marque> arrayMarqueGlobal = new ArrayList<Marque>();
 		List<String> arrayCategorie = new ArrayList<>();
 		List<String> arrayMarque = new ArrayList<>();
 
@@ -143,6 +145,7 @@ public class IntegrationOpenFoodFacts {
 
 					for (String ingredient : listIngredient) {
 						Ingredient ingre = new Ingredient(ingredient);
+						arrayIngredientGlobal.add(ingre);
 						arrayIngre.add(ingre);
 					}
 
@@ -166,10 +169,6 @@ public class IntegrationOpenFoodFacts {
 						arrayAdd.add(add);
 					}
 
-					em.getTransaction().begin();
-
-					Categorie categorie = new Categorie();
-					Marque marque = new Marque();
 					Produit produit = new Produit();
 
 					produit.setNom(nom);
@@ -201,6 +200,8 @@ public class IntegrationOpenFoodFacts {
 					produit.setAllergenes(arrayAllerg);
 					produit.setAdditifs(arrayAdd);
 
+					em.getTransaction().begin();
+
 					for (Ingredient ingre : arrayIngre) {
 						em.persist(ingre);
 					}
@@ -215,24 +216,33 @@ public class IntegrationOpenFoodFacts {
 
 					if (!arrayCategorie.contains(stringCategorie)) {
 						arrayCategorie.add(stringCategorie);
-						categorie.setNom(stringCategorie);
-						em.persist(categorie);
+						Categorie newCate = new Categorie(stringCategorie);
+						arrayCategorieGlobal.add(newCate);
+					}
+
+					for (Categorie categories : arrayCategorieGlobal) {
+						if (categories.getNom().equals(stringCategorie)) {
+							produit.setCategorie(categories);
+							em.persist(categories);
+						}
 					}
 
 					if (!arrayMarque.contains(stringMarque)) {
 						arrayMarque.add(stringMarque);
-						marque.setNom(stringMarque);
-						em.persist(marque);
+						Marque newMarque = new Marque(stringMarque);
+						arrayMarqueGlobal.add(newMarque);
+					}
+					
+					for (Marque marques : arrayMarqueGlobal) {
+						if (marques.getNom().equals(stringMarque)) {
+							produit.setMarque(marques);
+							em.persist(marques);
+						}
 					}
 
-					categorie.getProduits().add(produit);
-					marque.getProduits().add(produit);
-					produit.setCategorie(categorie);
-					produit.setMarque(marque);
-
-					em.persist(produit);
-
 					em.getTransaction().commit();
+
+					arrayProduitGlobal.add(produit);
 
 				} else {
 					ErreurSaisie erreursaisie = new ErreurSaisie(line);
@@ -244,29 +254,13 @@ public class IntegrationOpenFoodFacts {
 		}
 
 		em.getTransaction().begin();
-//		for (Ingredient ingredients : arrayIngredientGlobal) {
-//			em.persist(ingredients);
-//		}
 
-//		for (Allergene allergenes : arrayAllergeneGlobal) {
-//			em.persist(allergenes);
-//		}
-//
-//		for (Additif additifs : arrayAdditifGlobal) {
-//			em.persist(additifs);
-//		}
+		for (Produit produits : arrayProduitGlobal) {
+			em.persist(produits);
+		}
 
-//		for (Categorie categories : arrayCategorieGlobal) {
-//			em.persist(categories);
-//		}
-//
-//		for (Marque marques : arrayMarqueGlobal) {
-//			em.persist(marques);
-//		}
-
-//		for (Produit produits : arrayProduitGlobal) {
-//			em.persist(produits);
-//		}
+		em.getTransaction().commit();
+		em.getTransaction().begin();
 
 		for (ErreurSaisie erreursaisies : arrayESGlobal) {
 			em.persist(erreursaisies);
